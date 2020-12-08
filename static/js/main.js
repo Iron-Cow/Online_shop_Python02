@@ -113,6 +113,35 @@ $(function() {
     });
   
   }
+
+
+
+$('#main-categories').click(function () {
+  console.log('aria clicked')
+  let checkbox_list = $('.checkbox-category:checked').toArray()
+  console.log(checkbox_list)
+  let new_link = '?'
+
+  if (checkbox_list.length > 0){
+      console.log(checkbox_list[0].id)
+      let list_of_ids = checkbox_list.map(el => el.id.replace('category', 'category='))
+      console.log(list_of_ids)
+      console.log(list_of_ids.join('&'))
+      new_link = '?' + list_of_ids.join('&')
+
+  }
+
+  $('#category-filter-button').attr('href', new_link)
+})
+
+
+
+
+
+
+
+
+
   
 });
 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
+from account.models import CustomMyEmailUser as User
 
 
 class Category(models.Model):
@@ -26,6 +27,15 @@ class Product(models.Model):
     price = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     slug = models.SlugField(null=True, blank=True)
+
+
+class Order(models.Model):
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    count = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f'User {self.customer.id} - {self.product.title} - {self.count}'
 
 
 def create_slug(instance: Product, new_slug=None) -> str:
