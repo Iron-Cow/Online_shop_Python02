@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -131,7 +130,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'account.CustomMyEmailUser'
 
-
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'rudyk.docs@gmail.com'
+EMAIL_HOST_PASSWORD = 'qwerqwer444'
+DEFAULT_FROM_EMAIL = 'rudyk.docs@gmail.com'
+DEFAULT_TO_EMAIL = 'rudyk.docs@gmail.com'
 
 
 

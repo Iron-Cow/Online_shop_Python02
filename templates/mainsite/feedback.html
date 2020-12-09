@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="{% static 'vendors/bootstrap/bootstrap.min.css' %}">
+</head>
+<body>
+
+
+<h1 class="text-danger">
+    Leave your feedback
+</h1>
+
+<form method="post" action="{% url 'feedback' %}">
+    {% csrf_token %}
+    {% for field in form %}
+        {{field.label}} {{ field }} <br>
+    {% endfor %}
+
+    <input type="submit" value="send email">
+</form>
+
+
+
+<script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+<script src="{% static 'vendors/bootstrap/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

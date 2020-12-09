@@ -68,7 +68,7 @@
 
                     <ul class="nav-shop">
                         <li class="nav-item"><button><i class="ti-search"></i></button></li>
-                        <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
+                        <li class="nav-item"><button data-toggle="modal" data-target="#exampleModal"><i class="ti-shopping-cart"></i><span class="nav-shop__circle">{{orders.count}}</span></button> </li>
                         <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
                     </ul>
                 </div>
@@ -95,6 +95,46 @@
     </div>
 </section>
 <!-- ================ end banner area ================= -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Корзина</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-danger table-bordered text-center">
+            <tr>
+                <th width="50%">Product</th>
+                <th width="20%">Count</th>
+                <th width="20%">Price $/piece</th>
+            </tr>
+            {% for order in orders %}
+                <tr class="table-light">
+                    <td>{{ order.product.title }}
+                        <a class="text-danger btn btn-outline-warning float-right" href="{% url 'delete_from_card' order.product.slug  %}">x</a></td>
+                    <td>
+                        <span id="decrease{{order.id}}" class="change_product_count btn btn-outline-success btn-sm">-</span>
+                        <span class="order_count">{{ order.count}}</span>
+                        <span id="increase{{order.id}}" class="change_product_count btn btn-outline-success btn-sm">+</span>
+                    </td>
+                    <td class="order_price">{{ order.product.price}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+          <p>Total - <span id="total_price">1000$</span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <!-- ================ category section start ================= -->
@@ -157,8 +197,8 @@
                                 <div class="card-product__img">
                                     <img class="card-img" src="/media/{{product.image}}" alt="">
                                     <ul class="card-product__imgOverlay">
-                                        <li><button><i class="ti-search"></i></button></li>
-                                        <li><button><i class="ti-shopping-cart"></i></button></li>
+                                        <li><button><i class="ti-search "></i></button></li>
+                                        <li><button><a href="{% url 'add_to_card' product.slug %}" class="ti-shopping-cart text-light"></a></button></li>
                                         <li><button><i class="ti-heart"></i></button></li>
                                     </ul>
                                 </div>
