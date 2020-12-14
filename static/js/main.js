@@ -151,6 +151,7 @@ $('.change_product_count').click(function () {
         console.log('ok to action');
         console.log(result.new_number)
         $(button).text(result.new_number)
+        update_total()
       }
     }
   })
@@ -159,7 +160,8 @@ $('.change_product_count').click(function () {
 
 })
 
-$('.order_table').click(function () {
+
+function update_total(){
   let orders = $('.order_row');
   let total_price = 0;
   for (let order of orders){
@@ -169,9 +171,29 @@ $('.order_table').click(function () {
     total_price += (+count) * (+price)
   }
   $('#total_price').text(total_price + '$')
+}
+
+$('.order_table').click(function () {
+  update_total()
 })
 
+$(".delete_order").click(function () {
+  let slug = $(this).attr('id').slice(6)
+  let row = $(this).closest('.order_row')
+  console.log(slug)
 
+    $.ajax({
+    url: `/delete_from_card/${slug}`,
+    method: 'GET',
+    success: function (result) {
+      if (result.status === 'ok'){
+        row.remove()
+        update_total()
+      }
+    }
+  })
+
+})
 
 
   

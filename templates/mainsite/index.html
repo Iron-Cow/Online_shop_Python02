@@ -116,7 +116,7 @@
             {% for order in orders %}
                 <tr class="order_row table-light">
                     <td>{{ order.product.title }}
-                        <a class="text-danger btn btn-outline-warning float-right" href="{% url 'delete_from_card' order.product.slug  %}">x</a></td>
+                        <button id="delete{{order.product.slug}}" class="delete_order text-danger btn btn-outline-warning float-right">x</button></td>
                     <td>
                         <span id="decrease{{order.id}}" class="change_product_count btn btn-outline-success btn-sm">-</span>
                         <span class="order_count">{{ order.count}}</span>
@@ -130,7 +130,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <a href="{% url 'get_pdf' %}" type="button" class="btn btn-primary">Get invoice</a>
       </div>
     </div>
   </div>

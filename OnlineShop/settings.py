@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import django_heroku
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +25,7 @@ SECRET_KEY = 'ewrlwn)(h&p@q9c__!76bvq+f@k^$ife@@v@^zrz%)h8dyz*%k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -139,4 +139,4 @@ DEFAULT_FROM_EMAIL = 'rudyk.docs@gmail.com'
 DEFAULT_TO_EMAIL = 'rudyk.docs@gmail.com'
 
 
-
+django_heroku.settings(locals())

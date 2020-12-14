@@ -5,7 +5,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from .forms import FeedbackForm
 from django.conf import settings
 from django.core.mail import send_mail
+
+# pdf generation
+from io import BytesIO
 from django.template.loader import get_template
+from django.http import HttpResponse
+from datetime import datetime
+from xhtml2pdf import pisa
 
 
 def index(request):
@@ -80,16 +86,20 @@ def add_to_card(request, slug):
         raise Http404
 
 def delete_from_card(request, slug):
+    result = {}
+    result['status'] = 'error'
+
     if not request.user.is_authenticated:
-        return redirect('/')
+        return JsonResponse(result)
 
     try:
         product = Product.objects.get(slug=slug)
         order = Order.objects.get(customer=request.user, product=product)
         order.delete()
-        return redirect('/')
+        result['status'] = 'ok'
+        return JsonResponse(result)
     except ObjectDoesNotExist:
-        raise Http404
+        return JsonResponse(result)
 
 
 def change_order_count(request, order_id):
@@ -111,4 +121,26 @@ def change_order_count(request, order_id):
         result['new_number'] = current_order_number
     return JsonResponse(result)
 
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
 
+
+def get_pdf(request):
+    orders = Order.objects.filter(customer=request.user)
+    total_price = 0
+    for order in orders:
+        total_price += order.count * order.product.price
+
+    context = {
+        'orders': orders,
+        'total_price': total_price
+    }
+
+    pdf = render_to_pdf('mainsite/invoice.html', context_dict=context)
+    return HttpResponse(pdf, content_type='application/pdf')
