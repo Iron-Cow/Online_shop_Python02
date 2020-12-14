@@ -25,7 +25,7 @@ SECRET_KEY = 'ewrlwn)(h&p@q9c__!76bvq+f@k^$ife@@v@^zrz%)h8dyz*%k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['online-shop-python02.herokuapp.com']
+ALLOWED_HOSTS = []
 
 # Application definition
 
