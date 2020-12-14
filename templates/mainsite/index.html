@@ -107,14 +107,14 @@
         </button>
       </div>
       <div class="modal-body">
-        <table class="table table-danger table-bordered text-center">
+        <table class="order_table table table-danger table-bordered text-center">
             <tr>
                 <th width="50%">Product</th>
                 <th width="20%">Count</th>
                 <th width="20%">Price $/piece</th>
             </tr>
             {% for order in orders %}
-                <tr class="table-light">
+                <tr class="order_row table-light">
                     <td>{{ order.product.title }}
                         <a class="text-danger btn btn-outline-warning float-right" href="{% url 'delete_from_card' order.product.slug  %}">x</a></td>
                     <td>

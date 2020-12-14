@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from .models import Product, Category, Order
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import FeedbackForm
@@ -90,3 +90,25 @@ def delete_from_card(request, slug):
         return redirect('/')
     except ObjectDoesNotExist:
         raise Http404
+
+
+def change_order_count(request, order_id):
+    result = {}
+    result['status'] = 'error'
+    if Order.objects.filter(id=order_id, customer=request.user).exists():
+        order = Order.objects.get(id=order_id, customer=request.user)
+        action = request.GET.get('action')
+        current_order_number = order.count
+        if action == 'increase':
+            current_order_number += 1
+        elif action == 'decrease' and current_order_number > 1:
+            current_order_number -= 1
+
+        order.count = current_order_number
+        order.save()
+
+        result['status'] = 'ok'
+        result['new_number'] = current_order_number
+    return JsonResponse(result)
+
+

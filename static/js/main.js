@@ -130,14 +130,46 @@ $('#main-categories').click(function () {
       new_link = '?' + list_of_ids.join('&')
 
   }
-
   $('#category-filter-button').attr('href', new_link)
 })
 
 
+$('.change_product_count').click(function () {
+  let order_id = $(this).attr('id').slice(8)
+  let action = $(this).attr('id').slice(0, 8)
+  let button  = $(this).siblings('.order_count')
+  console.log(order_id)
+
+  $.ajax({
+    url: `/change_order_count/${order_id}`,
+    method: 'GET',
+    data: {
+      'action': action
+    },
+    success: function (result) {
+      if (result.status === 'ok'){
+        console.log('ok to action');
+        console.log(result.new_number)
+        $(button).text(result.new_number)
+      }
+    }
+  })
 
 
 
+})
+
+$('.order_table').click(function () {
+  let orders = $('.order_row');
+  let total_price = 0;
+  for (let order of orders){
+    let count = $(order).find('.order_count').text()
+    let price = $(order).find('.order_price').text()
+
+    total_price += (+count) * (+price)
+  }
+  $('#total_price').text(total_price + '$')
+})
 
 
 
