@@ -1,1 +1,1 @@
-Proсfile -> web: gunicorn OnlineShop.wsgi
+web: gunicorn OnlineShop.wsgi
